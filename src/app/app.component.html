@@ -3,9 +3,11 @@
     <img src="/images/logo-header.png" alt="Logo" class="logo" />
 
     <nav class="nav-links">
-      <a routerLink="/submit-review" routerLinkActive="active">Formulaire</a>
-      <a routerLink="/view-reviews" routerLinkActive="active">Avis</a>
+      <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+      <a [routerLink]="['/submit-review']" routerLinkActive="active">Formulaire</a>
+      <a [routerLink]="['/view-reviews']" routerLinkActive="active">Avis</a>
     </nav>
+    
   </div>
 </header>
 
