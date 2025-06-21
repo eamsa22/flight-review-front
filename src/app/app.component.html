@@ -1,6 +1,12 @@
-
 <header class="app-header">
-  <img src="/images/logo-header.png" alt="Logo" class="logo" />
+  <div class="logo-and-nav">
+    <img src="/images/logo-header.png" alt="Logo" class="logo" />
+
+    <nav class="nav-links">
+      <a routerLink="/submit-review" routerLinkActive="active">Formulaire</a>
+      <a routerLink="/view-reviews" routerLinkActive="active">Avis</a>
+    </nav>
+  </div>
 </header>
 
 <router-outlet></router-outlet>

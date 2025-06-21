@@ -1,16 +1,41 @@
 .app-header {
-    background-color: #38b6ff;
-    color: white;
-    padding: 10px 20px;
+  background-color: #38b6ff;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .logo-and-nav {
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-    .logo {
-      height: 50px;
+    gap: 30px;
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        text-decoration: underline;
+      }
+
+      &.active {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
     }
+  }
 }
-
-
-  
-  
