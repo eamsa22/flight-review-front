@@ -1,74 +1,86 @@
-<mat-vertical-stepper [linear]="true" #stepper>
+<div class="form-with-side">
+
+  <mat-vertical-stepper [linear]="true" #stepper>
+    
     <mat-step [stepControl]="flightForm">
       <form [formGroup]="flightForm">
         <ng-template matStepLabel>Informations du vol</ng-template>
-  
+
         <mat-form-field appearance="fill" class="full-width field-spacing">
-          <mat-label>Numero du vol</mat-label>
-          <input matInput formControlName="flightNumber" required placeholder="Ex. AF001"/>
+          <mat-label>Numéro du vol</mat-label>
+          <input matInput formControlName="flightNumber" required placeholder="Ex. AF001" />
         </mat-form-field>
-  
+
         <mat-form-field appearance="fill" class="full-width field-spacing">
           <mat-label>Date du vol</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="date" required />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-  
+
         <mat-form-field appearance="fill" class="full-width field-spacing">
-          <mat-label>Airline</mat-label>
+          <mat-label>Compagnie</mat-label>
           <input matInput formControlName="airline" required />
         </mat-form-field>
-  
+
         <div class="action-row">
           <mat-error *ngIf="flightNotFound" class="error-msg">
             {{ flightNotFoundMessage }}
           </mat-error>
-          <button mat-button (click)="verifyFlight(stepper)">Suivant</button>
+          <button mat-button type="button" (click)="verifyFlight(stepper)">Suivant</button>
         </div>
-
-
       </form>
     </mat-step>
-  
+
     <mat-step [stepControl]="reviewForm">
-      <form [formGroup]="reviewForm">
-        <ng-template matStepLabel>Review</ng-template>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Rating (1-5)</mat-label>
+      <form [formGroup]="reviewForm" class="review-form">
+        <ng-template matStepLabel>Avis</ng-template>
+
+        <mat-form-field appearance="fill" class="full-width rating-field">
+          <mat-label>Note de l'avis (1-5)</mat-label>
           <input type="number" matInput formControlName="rating" min="1" max="5" required />
         </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Comment</mat-label>
+
+        <mat-form-field appearance="fill" class="full-width comment-field">
+          <mat-label>Commentaire</mat-label>
           <textarea matInput formControlName="comment"></textarea>
         </mat-form-field>
-  
+
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="submitReview()">Submit</button>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Suivant</button>
         </div>
       </form>
     </mat-step>
 
     <mat-step>
-        <ng-template matStepLabel>Confirmation</ng-template>
-      
-        <div class="review-summary">
-          <h3>Récapitulatif de votre avis</h3>
-          <p><strong>Numéro de vol :</strong> {{ flightForm.value.flightNumber }}</p>
-          <p><strong>Date du vol :</strong> {{ flightForm.value.date | date:'longDate' }}</p>
-          <p><strong>Compagnie :</strong> {{ flightForm.value.airline }}</p>
-          <p><strong>Note :</strong> {{ reviewForm.value.rating }}/5</p>
-          <p><strong>Commentaire :</strong> {{ reviewForm.value.comment || 'Aucun' }}</p>
-        </div>
-      
-        <div>
-          <button mat-button matStepperPrevious>Modifier</button>
-          <button mat-button color="primary" (click)="submitReview()">Confirmer et envoyer</button>
-        </div>
+      <ng-template matStepLabel>Confirmation</ng-template>
+
+      <div class="review-summary">
+        <h3>Récapitulatif de votre avis</h3>
+        <p><strong>Numéro de vol :</strong> {{ flightForm.value.flightNumber }}</p>
+        <p><strong>Date du vol :</strong> {{ flightForm.value.date | date:'longDate' }}</p>
+        <p><strong>Compagnie :</strong> {{ flightForm.value.airline }}</p>
+        <p><strong>Note :</strong> {{ reviewForm.value.rating }}/5</p>
+        <p><strong>Commentaire :</strong> {{ reviewForm.value.comment || 'Aucun' }}</p>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Modifier</button>
+        <button mat-button color="primary" (click)="submitReview()">Confirmer et envoyer</button>
+      </div>
     </mat-step>
-      
   </mat-vertical-stepper>
-  
+
+  <div class="side-panel">
+    <img src="images/airplane-window.png" alt="Illustration avion" class="side-image" />
+    <p class="side-note">text to add</p>
+  </div>
+</div>
+<div *ngIf="successMessage" class="notification-box success">
+    <i class="fas fa-check-circle"></i> {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="notification-box error">
+    <i class="fas fa-times-circle"></i> {{ errorMessage }}
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { FlightService } from '../../services/flight.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-reviews-form',
@@ -28,12 +29,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 export class ReviewsFormComponent {
+  @ViewChild('stepper') stepper!: MatStepper;
+
   flightForm: FormGroup;
   reviewForm: FormGroup;
+  flightData: any = null;
   flightNotFound = false;  
   flightNotFoundMessage: String ="";
+  successMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private flightService: FlightService) {
+  constructor(private fb: FormBuilder, private flightService: FlightService, private reviewService: ReviewService) {
     this.flightForm = this.fb.group({
       flightNumber: ['', Validators.required],
       airline: ['', Validators.required],
@@ -58,8 +64,9 @@ verifyFlight(stepper: MatStepper): void {
   const formattedDate = this.formatDate(date);
 
   this.flightService.getFlight(flightNumber, formattedDate, airline).subscribe({
-    next: () => {
+    next: (flight) => {
       this.flightNotFound = false;
+      this.flightData = flight;
       stepper.next();
     },
     error: (err: HttpErrorResponse) => {
@@ -72,15 +79,50 @@ verifyFlight(stepper: MatStepper): void {
 
        this.flightForm.reset();
     }
-  });
-}
+    });
+  }
 
   submitReview() {
+    if (this.reviewForm.invalid || !this.flightData) return;
+
+    const { rating, comment } = this.reviewForm.value;
+
     const review = {
-      ...this.flightForm.value,
-      ...this.reviewForm.value
+      rating: Number(rating),
+      comment: comment.trim(),
+      flight: this.flightData
     };
-    console.log('Review submitted:', review);
+
+    this.reviewService.submitReview(review).subscribe({
+      next: (res) => {
+        console.log('Avis enregistré avec succès !', res);
+        this.showNotification('success', 'Avis enregistré avec succès !');
+        this.reviewForm.reset();
+        this.flightForm.reset();
+        this.flightData = null;
+        this.stepper.reset();
+
+      },
+      error: (err) => {
+        console.error('Erreur lors de l’envoi de l’avis', err);
+        this.showNotification('error', 'Erreur lors de l’envoi de l’avis. Veuillez réessayer.');
+      }
+    });
+  }
+
+  private showNotification(type: 'success' | 'error', message: string) {
+    if (type === 'success') {
+      this.successMessage = message;
+      this.errorMessage = '';
+    } else {
+      this.errorMessage = message;
+      this.successMessage = '';
+    }
+
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage = '';
+    }, 5000); 
   }
 
   private formatDate(date: Date): string {
