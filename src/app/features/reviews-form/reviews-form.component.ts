@@ -69,7 +69,7 @@ verifyFlight(stepper: MatStepper): void {
       this.flightNotFoundMessage = err.status === 404
         ? (isString ? err.error : err.error?.message || 'Vol introuvable.')
         : 'Erreur au niveau du serveur.';
-        
+
        this.flightForm.reset();
     }
   });
@@ -84,6 +84,10 @@ verifyFlight(stepper: MatStepper): void {
   }
 
   private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0]; 
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; 
   }
+
 }
