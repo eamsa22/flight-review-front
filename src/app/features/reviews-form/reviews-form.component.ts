@@ -74,10 +74,9 @@ verifyFlight(stepper: MatStepper): void {
       const isString = typeof err.error === 'string';
 
       this.flightNotFoundMessage = err.status === 404
-        ? (isString ? err.error : err.error?.message || 'Vol introuvable.')
+        ? 'Vol introuvable'
         : 'Erreur au niveau du serveur.';
 
-       this.flightForm.reset();
     }
     });
   }
