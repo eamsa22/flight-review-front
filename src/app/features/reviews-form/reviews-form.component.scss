@@ -1,0 +1,41 @@
+.review-summary {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-left: 4px solid #38b6ff;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  
+    h3 {
+      color: #38b6ff;
+      margin-bottom: 10px;
+    }
+  
+    p {
+      margin: 5px 0;
+      color: #333;
+    }
+}
+::ng-deep .mat-step-header .mat-step-icon-selected{
+  background-color: #131941; 
+  color: white; 
+}
+
+.field-spacing {
+  margin-right: 8px; 
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+}
+
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+  
+  
