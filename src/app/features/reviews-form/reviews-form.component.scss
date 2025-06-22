@@ -11,22 +11,22 @@ mat-vertical-stepper {
 }
 
 .side-panel {
-  width: 250px;
+  width: 40vw;
   flex-shrink: 0;
   text-align: center;
 }
 
 .side-image {
   width: 100%;
-  max-width: 200px;
-  border-radius: 8px;
+  max-width: 40vw;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .side-note {
-  font-size: 14px;
+  font-size: 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 12px;
-  color: #555;
+  color: #131941;
 }
 
 .review-summary {
