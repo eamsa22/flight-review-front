@@ -43,6 +43,7 @@
 
 .filter-field {
   width: 100%;
+  width: 170px;
   margin-bottom: 5px;
   font-size: 13px;
   height: 25px;
@@ -55,72 +56,44 @@
   color: #333;
 }
 
-mat-form-field.filter-field {
-  width: 60%;
-  margin-bottom: 5px;
-  font-size: 13px;
-  height: 25px;
-  display: block;
-  line-height: 25px;
-}
 
-mat-form-field.filter-field .mat-form-field-wrapper {
-  padding: 0 !important;
-  margin: 0 !important;
-  height: 25px !important;
-  min-height: 25px !important;
-}
-
-mat-form-field.filter-field .mat-form-field-flex {
-  height: 25px !important;
-  align-items: center;
-  display: flex;
-}
-
-mat-form-field.filter-field .mat-form-field-infix {
-  padding: 0 4px !important;
-  height: 25px !important;
+.date-filter-wrapper {
   display: flex;
   align-items: center;
   background-color: #fbf7f7ee;
   border: 0.5px solid #ccc;
   border-radius: 3px;
-}
-
-mat-form-field.filter-field .mat-form-field-underline,
-mat-form-field.filter-field .mat-form-field-subscript-wrapper {
-  display: none;
-}
-
-.mat-datepicker-content .mat-calendar {
-  zoom: 0.85;
-}
-
-.md-datepicker-input-container {
+  padding: 0 4px;
   height: 25px;
+  box-sizing: border-box;
+  width: 170px;
+
+  input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    background: transparent;
+  }
+
+  mat-datepicker-toggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  button {
+    height: 20px !important;
+    width: 20px !important;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mat-icon {
+    font-size: 13px;
+  }
 }
 
-mat-datepicker-toggle {
-  height: 25px !important;
-  min-height: 25px !important;
-}
-
-mat-datepicker-toggle button {
-  height: 25px !important;
-  width: 25px !important;
-  padding: 0 !important;
-  margin: 0 4px 0 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-mat-datepicker-toggle .mat-icon {
-  font-size: 18px !important;
-  height: 18px !important;
-  width: 18px !important;
-  line-height: 18px !important;
-}
 
 mat-paginator {
   margin-top: 10px;
@@ -154,13 +127,13 @@ mat-paginator {
 }
 .view-icon {
   cursor: pointer;
-  color: #13446f; // bleu visible
+  color: #13446f; 
   font-size: 20px;
   transition: transform 0.2s ease;
 
   &:hover {
     transform: scale(1.2);
-    color: #0d47a1; // bleu plus foncé au survol
+    color: #0d47a1; 
   }
 }
 
@@ -179,3 +152,7 @@ mat-paginator {
 
 
 
+::ng-deep .mat-datepicker-content .mat-calendar {
+        width: 229px!important;
+        height: 300px!important;
+    }
