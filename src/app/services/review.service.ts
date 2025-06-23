@@ -15,4 +15,8 @@ export class ReviewService {
   public submitReview(review: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, review);
   }
+
+  public getAllReviews(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl+"/all"); 
+  }
 }

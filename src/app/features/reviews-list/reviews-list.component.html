@@ -1,1 +1,49 @@
-<p>reviews-list works!</p>
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 custom-table">
+
+        <ng-container *ngFor="let col of cols" [matColumnDef]="col.name">
+        
+            <!-- Header -->
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="header-cell-wrapper">
+                <div class="header-cell-content" mat-sort-header>
+                    <span class="header-title">{{ col.header }}</span>
+                </div>
+                    <input class="filter-field" [formControl]="filterControls[col.field]" (input)="applyFilters()" />
+                </div>
+            </th>
+        
+            <!-- data cell (body) -->
+            <td mat-cell *matCellDef="let row">
+                {{
+                    col.filterType === 'date'
+                    ? (col.subfield
+                        ? (row[col.field]?.[col.subfield] | date: 'dd-MM-yyyy')
+                        : (row[col.field] | date: 'dd-MM-yyyy'))
+                    : (col.subfield
+                        ? row[col.field]?.[col.subfield]
+                        : row[col.field])
+                }}
+            </td>
+
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <ng-container *matNoDataRow>
+            <tr>
+                <td [attr.colspan]="displayedColumns.length" style="text-align: left; padding: 20px; color: #000000;">
+                    Aucune donnée disponible.
+                </td>
+            </tr>
+        </ng-container>
+    </table>
+    <mat-paginator
+         [hidePageSize]="true"
+        [length]="dataSource.data.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons>
+    </mat-paginator>
+</div>
