@@ -11,10 +11,15 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ReviewService } from '../../services/review.service';
 import { Review } from '../../model/Review';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/overlay';
+import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 
 @Component({
   selector: 'app-reviews-list',
-  imports: [MatPaginator, MatPaginatorModule,MatIconModule,MatTableModule, CommonModule, MatFormFieldModule,MatSort, MatSortModule,  MatInputModule, MatDatepickerModule ,ReactiveFormsModule , MatNativeDateModule ],
+  imports: [MatTooltipModule,MatPaginator, MatPaginatorModule,MatIconModule,MatTableModule, CommonModule, MatFormFieldModule,MatSort, MatSortModule,  MatInputModule, MatDatepickerModule ,ReactiveFormsModule , MatNativeDateModule ],
   templateUrl: './reviews-list.component.html',
   styleUrl: './reviews-list.component.scss'
 })
@@ -25,29 +30,35 @@ export class ReviewsListComponent {
   cols = [
     { name: 'flightNumber', field: 'flight', subfield: 'flightNumber', header: 'N° du Vol', filterType: 'text' },
     { name: 'airline', field: 'flight', subfield: 'airline', header: 'Compagnie', filterType: 'text' },
-    { name: 'flightDate', field: 'flight', subfield: 'date', header: 'Date du vol', filterType: 'date' },
+    { name: 'flightDate', field: 'flight', subfield: 'date', header: 'Date du vol', filterType: 'between' },
     { name: 'rating', field: 'rating', header: 'Note', filterType: 'number' },
     { name: 'comment', field: 'comment', header: 'Commentaire', filterType: 'text' },
-    { name: 'submittedAt', field: 'submittedAt', header: 'Date avis', filterType: 'date' },
+    { name: 'submittedAt', field: 'submittedAt', header: 'Date avis', filterType: 'between' },
   ];
 
-  displayedColumns = this.cols.map(col => col.name);
+  displayedColumns: string[] = [...this.cols.map(col => col.name), 'actions'];
+
   dataSource = new MatTableDataSource<Review>([]);
   
   filterControls: { [key: string]: FormControl } = {};
   pickerMap: { [key: string]: string } = {};
 
-  constructor(private reviewService: ReviewService){}
+  constructor(private reviewService: ReviewService,private dialog: MatDialog){}
 
   ngOnInit() {
-    this.loadData();
-    this.cols.forEach((col, index) => {
-      this.filterControls[col.field] = new FormControl('');
-      if (col.filterType === 'date') {
-        this.pickerMap[col.field] = `picker${index}`; 
-      }
-    });
-  }
+  this.cols.forEach((col, index) => {
+    const control = new FormControl('');
+    this.filterControls[col.name] = control;
+
+    control.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(() => this.applyFilters());
+  });
+
+  this.loadData(); 
+}
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -68,5 +79,80 @@ export class ReviewsListComponent {
 
 
   applyFilters() {
+    const filters: any = {};
+
+    this.cols.forEach(col => {
+      const value = this.filterControls[col.name].value;
+
+      if (!value) return;
+
+      switch (col.filterType) {
+        case 'text':
+          if (col.name === 'airline') filters.airline = value;
+          if (col.name === 'flightNumber') filters.flightNumber = value;
+          if (col.name === 'comment') filters.keyword = value;
+          break;
+
+        case 'number':
+          if (col.name === 'rating') filters.rating = value;
+          break;
+
+        case 'between':
+          const date: Date = value;
+          const formatted = this.formatDate(date);
+
+          if (col.name === 'flightDate') {
+            filters.flightStartDate = formatted;
+            filters.flightEndDate = formatted;
+          }
+
+          if (col.name === 'submittedAt') {
+            const date: Date = this.filterControls[col.name].value;
+            if (date) {
+              filters.submittedAfter = this.formatDateTime(date, 'start');
+              filters.submittedBefore = this.formatDateTime(date, 'end');
+            }
+          }
+
+          break;
+      }
+    });
+
+    this.reviewService.getFilteredReviews(filters).subscribe({
+      next: (data) => this.dataSource.data = data,
+      error: (err) => {
+        console.error('Erreur recherche :', err);
+        this.dataSource.data = [];
+      }
+    });
   }
+
+  resetFilters() {
+    Object.keys(this.filterControls).forEach(key => {
+      this.filterControls[key].setValue('');
+    });
+  }
+
+  viewComment(row: Review) {
+    this.dialog.open(CommentDialogComponent, {
+      data: { comment: row.comment },
+      width: '400px'
+    });
+  }
+
+  private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+      const day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`; 
+  }
+  
+  private formatDateTime(date: Date, boundary: 'start' | 'end'): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const time = boundary === 'start' ? '00:00:00' : '23:59:59';
+    return `${year}-${month}-${day}T${time}`;
+  }
+
 }

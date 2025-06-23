@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Review } from '../model/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,11 @@ export class ReviewService {
   public getAllReviews(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl+"/all"); 
   }
+
+  public getFilteredReviews(filters: any): Observable<Review[]> {
+    const params = new HttpParams({ fromObject: filters });
+    console.log(filters)
+    return this.http.get<Review[]>(this.baseUrl+"/all", { params });
+  }
+
 }
