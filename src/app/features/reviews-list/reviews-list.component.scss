@@ -164,5 +164,18 @@ mat-paginator {
   }
 }
 
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.table-description {
+  font-size: 14px;
+  color: #444;
+  margin: 0;
+}
+
 
 

@@ -1,11 +1,13 @@
 
 <div class="table-container">
-    <div class="reset-container">
+      <div class="header-info">
+    <p class="table-description">
+      Liste des avis. Cliquez sur l’icône 👁 pour visualiser un commentaire complet.
+    </p>
     <button mat-stroked-button color="warn" class="reset-button" (click)="resetFilters()">
       Réinitialiser les filtres
     </button>
   </div>
-
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 custom-table">
 
         <ng-container *ngFor="let col of cols" [matColumnDef]="col.name">
