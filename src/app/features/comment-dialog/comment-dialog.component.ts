@@ -12,6 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './comment-dialog.component.scss'
 })
 export class CommentDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { comment: string }) {}
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { comment: string, response?: string | null }) {}
 }
+

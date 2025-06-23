@@ -1,7 +1,15 @@
-<h2 mat-dialog-title>Commentaire</h2>
-    <mat-dialog-content>
-      <p>{{ data.comment }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Fermer</button>
+<h2 mat-dialog-title>Détails du commentaire</h2>
+
+<mat-dialog-content>
+  <h4>Commentaire :</h4>
+  <p>{{ data.comment }}</p>
+
+  <ng-container *ngIf="data.response">
+    <h4>Réponse :</h4>
+    <p>{{ data.response }}</p>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fermer</button>
 </mat-dialog-actions>

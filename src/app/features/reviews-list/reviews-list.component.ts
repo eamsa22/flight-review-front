@@ -135,10 +135,14 @@ export class ReviewsListComponent {
 
   viewComment(row: Review) {
     this.dialog.open(CommentDialogComponent, {
-      data: { comment: row.comment },
-      width: '400px'
+      data: {
+        comment: row.comment,
+        response: row.response ?? null
+      },
+      width: '500px'
     });
   }
+
 
   private formatDate(date: Date): string {
       const year = date.getFullYear();

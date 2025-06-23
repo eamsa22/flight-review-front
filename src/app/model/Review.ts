@@ -7,4 +7,5 @@ export interface Review {
   rating: number;
   comment: string;
   submittedAt: String;
+  response?: string | null;
 }
