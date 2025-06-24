@@ -26,7 +26,8 @@ import { CommentDialogComponent } from '../comment-dialog/comment-dialog.compone
 export class ReviewsListComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+  @ViewChild(MatSort) sort!: MatSort;
+
   cols = [
     { name: 'flightNumber', field: 'flight', subfield: 'flightNumber', header: 'N° du Vol', filterType: 'text' },
     { name: 'airline', field: 'flight', subfield: 'airline', header: 'Compagnie', filterType: 'text' },
@@ -41,8 +42,8 @@ export class ReviewsListComponent {
   dataSource = new MatTableDataSource<Review>([]);
   
   filterControls: { [key: string]: FormControl } = {};
-  pickerMap: { [key: string]: string } = {};
 
+  
   constructor(private reviewService: ReviewService,private dialog: MatDialog){}
 
   ngOnInit() {
@@ -62,6 +63,12 @@ export class ReviewsListComponent {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.sort.sortChange.subscribe(() => {
+      this.applyFilters(); 
+    });
+
   }
 
   loadData() {
@@ -118,13 +125,31 @@ export class ReviewsListComponent {
       }
     });
 
-    this.reviewService.getFilteredReviews(filters).subscribe({
+    let sortParam = '';
+
+    if (this.sort.active) {
+      const dir = this.sort.direction || 'asc';
+
+      let fieldName = this.sort.active;
+
+      if (fieldName === 'flightDate') {
+        fieldName = 'flight.date';
+      } else if (['flightNumber', 'airline'].includes(fieldName)) {
+        fieldName = `flight.${fieldName}`;
+      }
+
+      sortParam = `${fieldName},${dir}`;
+    }
+
+
+    this.reviewService.getFilteredReviews(filters, sortParam).subscribe({
       next: (data) => this.dataSource.data = data,
       error: (err) => {
         console.error('Erreur recherche :', err);
         this.dataSource.data = [];
       }
     });
+
   }
 
   resetFilters() {

@@ -21,10 +21,15 @@ export class ReviewService {
     return this.http.get<any[]>(this.baseUrl+"/all"); 
   }
 
-  public getFilteredReviews(filters: any): Observable<Review[]> {
-    const params = new HttpParams({ fromObject: filters });
-    console.log(filters)
-    return this.http.get<Review[]>(this.baseUrl+"/all", { params });
+  public getFilteredReviews(filters: any, sort: string = '') {
+    let params = new HttpParams({ fromObject: { ...filters } });
+
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+
+    return this.http.get<Review[]>(`${this.baseUrl}/all`, { params });
   }
+
 
 }
