@@ -1,0 +1,158 @@
+.table-container {
+  display: row;
+  justify-content: center;
+  margin: 50px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: separate; 
+  border: 1px solid #bbcad8;    
+  border-radius: 6px;        
+  overflow: hidden;
+}
+
+.custom-table td, 
+.custom-table th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.custom-header-row {
+  background-color: #dedee5da;
+}
+
+.header-cell-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 2px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-cell-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 4px;
+  width: 100%;
+  font-size: 13px;
+}
+
+.filter-field {
+  width: 100%;
+  width: 170px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  height: 25px;
+  background-color: #fbf7f7ee;
+  border: 0.5px solid #ccc; 
+  border-radius: 3px;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  outline: none;
+  color: #333;
+}
+
+
+.date-filter-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fbf7f7ee;
+  border: 0.5px solid #ccc;
+  border-radius: 3px;
+  padding: 0 4px;
+  height: 25px;
+  box-sizing: border-box;
+  width: 170px;
+
+  input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    background: transparent;
+  }
+
+  mat-datepicker-toggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  button {
+    height: 20px !important;
+    width: 20px !important;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mat-icon {
+    font-size: 13px;
+  }
+}
+
+
+mat-paginator {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.reset-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.reset-button {
+    cursor: pointer;
+  background-color: #e53935; 
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 30px; 
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  height: 40px;
+
+  &:hover {
+    background-color: #bd2d2d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  }
+}
+.view-icon {
+  cursor: pointer;
+  color: #13446f; 
+  font-size: 20px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+    color: #0d47a1; 
+  }
+}
+
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.table-description {
+  font-size: 14px;
+  color: #444;
+  margin: 0;
+}
+
+
+
+::ng-deep .mat-datepicker-content .mat-calendar {
+        width: 229px!important;
+        height: 300px!important;
+    }
