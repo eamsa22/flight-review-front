@@ -39,7 +39,7 @@ L’architecture du front suit une organisation modulaire :
 
 * Le formulaire est en **deux étapes** :
 
-  1. **Identification du vol** (compagnie + numéro de vol)
+  1. **Identification du vol** (compagnie + numéro de vol+date)
   2. **Rédaction de l’avis** : note (1 à 5) + commentaire
 
 * **Conditions :**
@@ -49,7 +49,7 @@ L’architecture du front suit une organisation modulaire :
 
 * **Soumission :**
 
-  * Une notification (`MatSnackBar`) s’affiche à droite après validation
+  * Une notification s’affiche à droite après validation
   * L’avis devient consultable dans la liste des avis
 
 ---
@@ -92,8 +92,8 @@ Elle montre :
 * La soumission d’un avis
 * La vérification d’un vol
 * Le filtrage et tri des avis
-
-https://drive.google.com/file/d/1dQJ1CYgg5vGW7gTfjcaHbX64TlIp4-SO/view?usp=sharing
+  
+https://drive.google.com/file/d/1psGqPvoiLsYL2CRrwdfDBdKG1RFmpXFc/view?usp=sharing
 
 ---
 
